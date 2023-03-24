@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import MessageCard from "@/components/MessageCard";
 import IMessage from "@/interfaces/IMessage";
 import { v4 as uuidv4 } from 'uuid'
-import { Send } from 'tabler-icons-react';
+import { Send, CurrencyDollar } from 'tabler-icons-react';
 import IChallenge from "@/interfaces/IChallenge";
 import { mockChallenges } from "@/mockdata/mockChallenges";
 
@@ -22,8 +22,8 @@ export default function ThreadPage({ messages, challenges }: { messages: IMessag
         name: 'Current user'
     }
     useEffect(() => {
-        challenges.forEach((item)=> {
-            if (item.id==router.query.thread_id) {
+        challenges.forEach((item) => {
+            if (item.id == router.query.thread_id) {
                 setChallenge(item);
             }
         })
@@ -59,6 +59,17 @@ export default function ThreadPage({ messages, challenges }: { messages: IMessag
                             styles={() => ({ root: { background: '#ced4da', color: '#F77F00' } })}>
                             {challenge?.sport_name}
                         </Badge>
+                        <Button
+                            ml={'auto'}
+                            size={'sm'}
+                            radius="lg"
+                            sx={{ borderStyle: 'solid', borderColor: '#F77F00', borderWidth: '2px', }}
+                            styles={(theme) => ({
+                                root: { background: '#F77F00', ":hover": theme.fn.hover({ background: 'white', color: '#F77F00' }) }
+                            })}
+                            leftIcon={<CurrencyDollar size={15} />}>
+                            Make Picks
+                        </Button>
                     </Group>
                     <Text fw={500} color={'dimmed'}>{challenge?.description}</Text>
                     <Text fw={600}>Watch it live:</Text>
