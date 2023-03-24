@@ -47,16 +47,16 @@ export default function ChallengeAccordion({ challenges }: { challenges: IChalle
                             bg={'#e9ecef'}>
                             <Accordion.Control>
                                 <Group noWrap bg={'none'} spacing={10}>
-                                    {getSportIcon(challenge.sport)}
+                                    {getSportIcon(challenge.sport_name)}
                                     <Text fw={500} fz={mobile ? 'xs' : 'sm'}>{challenge.title}</Text>
                                     <Badge
                                         styles={() => ({ root: { background: '#ced4da', color: '#F77F00' } })}>
-                                        {challenge.sport}
+                                        {challenge.sport_name}
                                     </Badge>
                                     <Badge
                                         size={'lg'}
                                         styles={() => ({ root: { background: '#bee9e8', color: '#1e6091', flexShrink: 0 } })}>
-                                        {`$${challenge.prizePool}`}
+                                        {`$${challenge.prize_pool}`}
                                     </Badge>
                                 </Group>
                             </Accordion.Control>

@@ -8,18 +8,26 @@ import IMessage from "@/interfaces/IMessage";
 import { v4 as uuidv4 } from 'uuid'
 import { Send } from 'tabler-icons-react';
 import IChallenge from "@/interfaces/IChallenge";
+import { mockChallenges } from "@/mockdata/mockChallenges";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
-export default function ThreadPage({ messages, challenge }: { messages: IMessage[], challenge: IChallenge }) {
+export default function ThreadPage({ messages, challenges }: { messages: IMessage[], challenges: IChallenge[] }) {
     const router = useRouter();
     const mobile = useMediaQuery('(max-width: 768px)');
     const [messageInput, setMessageInput] = useState('');
     const [messageArr, setMessageArr] = useState<IMessage[]>([...messages]);
+    const [challenge, setChallenge] = useState<IChallenge>();
     const inputRef = useRef<HTMLInputElement>(null);
     const user = {
         name: 'Current user'
     }
-
+    useEffect(() => {
+        challenges.forEach((item)=> {
+            if (item.id==router.query.thread_id) {
+                setChallenge(item);
+            }
+        })
+    }, [])
     const sendMessage = async () => {
         if (messageInput == '') { return };
         const newMsg: IMessage = {
@@ -46,13 +54,13 @@ export default function ThreadPage({ messages, challenge }: { messages: IMessage
                 sx={{ padding: '2%', paddingTop: 80, overflow: 'auto' }}>
                 <Stack w={'100%'} spacing={0}>
                     <Group noWrap>
-                        <Text fw={700} fz={25}>{challenge.title}</Text>
+                        <Text fw={700} fz={25}>{challenge?.title}</Text>
                         <Badge
                             styles={() => ({ root: { background: '#ced4da', color: '#F77F00' } })}>
-                            {challenge.sport}
+                            {challenge?.sport_name}
                         </Badge>
                     </Group>
-                    <Text fw={500} color={'dimmed'}>{challenge.description}</Text>
+                    <Text fw={500} color={'dimmed'}>{challenge?.description}</Text>
                     <Text fw={600}>Watch it live:</Text>
                 </Stack>
                 {ReactPlayer && <ReactPlayer url={'https://www.youtube.com/watch?v=1fueZCTYkpA'} width={mobile ? '100%' : '60%'} style={{ minHeight: mobile ? 350 : 450 }} controls></ReactPlayer>}
@@ -99,7 +107,7 @@ export async function getServerSideProps() {
     const mockMessages = [
         {
             id: uuidv4(),
-            message: 'Hello from Brazil!',
+            message: 'Greetings from Brazil!',
             user: { name: 'Marco' },
             date: new Date().toUTCString(),
         },
@@ -110,19 +118,11 @@ export async function getServerSideProps() {
             date: new Date().toUTCString(),
         }
     ]
-    const mockChallenge = {
-        id: uuidv4(),
-        sport: 'Nascar',
-        title: '1st Position',
-        description: 'Pick the pilot who will finish 1st place on this race.',
-        participants: 52,
-        prizePool: 100,
-        endDate: new Date().toUTCString()
-    }
+    const mockedChallenges = mockChallenges;
     return {
         props: {
             messages: mockMessages.reverse(),
-            challenge: mockChallenge
+            challenges: mockedChallenges
         }
     }
 }

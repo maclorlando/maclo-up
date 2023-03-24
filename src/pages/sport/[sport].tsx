@@ -15,7 +15,6 @@ export default function SportPage({sports, challenges}: {sports: ISport[], chall
     const [participants, setParticipants] = useState<number>();
     const [sportChallenges, setSportChallenges] = useState<IChallenge[]>([]);
     useEffect(() => {
-        console.log('run effect');
         sports.forEach((sport) => {
             if (sport.name.toLowerCase() == router.query.sport) {
                 setSport(sport)
@@ -23,7 +22,7 @@ export default function SportPage({sports, challenges}: {sports: ISport[], chall
         });
         let nParticipants = 0;
         challenges.forEach((challenge) => {
-            if (challenge.sport.toLowerCase() == router.query.sport) {
+            if (challenge.sport_name.toLowerCase() == router.query.sport) {
                 nParticipants += challenge.participants;
                 if (!sportChallenges.includes(challenge)) {
                     sportChallenges.push(challenge);

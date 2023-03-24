@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-/* PetSchema will correspond to a collection in your MongoDB database. */
+/* SportSchema will correspond to a collection in your MongoDB database. */
 const SportSchema = new mongoose.Schema({
   name: {
     /* The name of this sport */
@@ -12,7 +12,7 @@ const SportSchema = new mongoose.Schema({
     /* The sport description to be shown when browsing available sports */
 
     type: String,
-    required: [true, 'Please specify the name of the sport.'],
+    required: [true, 'Please specify the description of the sport.'],
   },
   new: {
     /* Boolean that indicates if the sport is a new addition to the platform */

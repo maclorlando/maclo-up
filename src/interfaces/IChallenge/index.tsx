@@ -1,11 +1,11 @@
 export default interface IChallenge {
     id: string,
-    sport: string,
+    sport_name: string,
     title: string,
     description: string,
     participants: number,
-    prizePool: number,
-    endDate: string,
-    rulesDescription?: string,
-    maxParticipants?: number,
+    prize_pool: number,
+    end_date: string,
+    rules_description?: string,
+    max_participants?: number,
 }
