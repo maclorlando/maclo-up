@@ -52,14 +52,16 @@ export default function ThreadPage({ messages, challenges }: { messages: IMessag
                 align={'center'}
                 h={'100vh'}
                 sx={{ padding: '2%', paddingTop: 80, overflow: 'auto' }}>
-                <Stack w={'100%'} spacing={0}>
+                <Stack w={'100%'} spacing={5}>
                     <Group noWrap>
                         <Text fw={700} fz={25}>{challenge?.title}</Text>
                         <Badge
                             styles={() => ({ root: { background: '#ced4da', color: '#F77F00' } })}>
                             {challenge?.sport_name}
                         </Badge>
-                        <Button
+                    </Group>
+                    <Text fw={500} color={'dimmed'}>{challenge?.description}</Text>
+                    <Button
                             ml={'auto'}
                             size={'sm'}
                             radius="lg"
@@ -70,8 +72,6 @@ export default function ThreadPage({ messages, challenges }: { messages: IMessag
                             leftIcon={<CurrencyDollar size={15} />}>
                             Make Picks
                         </Button>
-                    </Group>
-                    <Text fw={500} color={'dimmed'}>{challenge?.description}</Text>
                     <Text fw={600}>Watch it live:</Text>
                 </Stack>
                 {ReactPlayer && <ReactPlayer url={'https://www.youtube.com/watch?v=1fueZCTYkpA'} width={mobile ? '100%' : '60%'} style={{ minHeight: mobile ? 350 : 450 }} controls></ReactPlayer>}
