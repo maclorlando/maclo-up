@@ -27,6 +27,7 @@ export default function Header() {
                     styles={{ dropdown: { width: '600px' } }}>
                     <Menu.Target>
                         <Burger
+                            sx={{zIndex: 2}}
                             opened={headerMenuOpen} onClick={() => {
                             setHeaderMenuOpen(!headerMenuOpen)
                         }}></Burger>
@@ -61,9 +62,9 @@ export default function Header() {
                         <Menu.Item color="red" icon={<Trash size={14} />}>Delete my account</Menu.Item>
                     </Menu.Dropdown>
                 </Menu>
-
+                
                 <Image
-                    sx={{ cursor: 'pointer' }}
+                    sx={{ cursor: 'pointer', position: 'fixed', zIndex: 1 }}
                     height={60} fit={'contain'} src={'/./upside_alpha.png'}
                     onClick={() => {
                         router.push('/')

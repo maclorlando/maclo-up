@@ -54,7 +54,7 @@ export default function ThreadPage({ messages, challenges }: { messages: IMessag
                 sx={{ padding: '2%', paddingTop: 80, overflow: 'auto' }}>
                 <Stack w={'100%'} spacing={5}>
                     <Group noWrap>
-                        <Text fw={700} fz={25}>{challenge?.title}</Text>
+                        <Text fw={700} fz={mobile?20:25}>{challenge?.title}</Text>
                         <Badge
                             styles={() => ({ root: { background: '#ced4da', color: '#F77F00' } })}>
                             {challenge?.sport_name}
