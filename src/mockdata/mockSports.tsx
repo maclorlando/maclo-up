@@ -3,7 +3,7 @@ import ISport from "@/interfaces/ISport";
 export const mockSports: ISport[] = [
     {
       name: 'Nascar',
-      description: 'One of the all time classics. Predict outcomes in numerous categories within this sport and profit.',
+      description: 'One of the all time classics. Predict outcomes in numerous categories within this sport and win big.',
       new: false,
       image_url: 'https://images.pexels.com/photos/40376/auto-racing-nascar-car-sport-40376.jpeg?auto=compress&cs=tinysrgb&w=900',
       challenges: 9
