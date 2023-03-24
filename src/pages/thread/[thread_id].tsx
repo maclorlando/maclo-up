@@ -53,8 +53,9 @@ export default function ThreadPage({ messages, challenge }: { messages: IMessage
                         </Badge>
                     </Group>
                     <Text fw={500} color={'dimmed'}>{challenge.description}</Text>
+                    <Text fw={600}>Watch it live:</Text>
                 </Stack>
-                {ReactPlayer && <ReactPlayer url={'https://youtu.be/jfKfPfyJRdk'} width={mobile ? '100%' : '60%'} style={{ minHeight: mobile ? 350 : 450 }} controls></ReactPlayer>}
+                {ReactPlayer && <ReactPlayer url={'https://www.youtube.com/watch?v=1fueZCTYkpA'} width={mobile ? '100%' : '60%'} style={{ minHeight: mobile ? 350 : 450 }} controls></ReactPlayer>}
                 <Group w={'100%'} noWrap>
                     <TextInput w={'100%'}
                         ref={inputRef}
@@ -117,7 +118,7 @@ export async function getServerSideProps() {
         participants: 52,
         prizePool: 100,
         endDate: new Date().toUTCString()
-      }
+    }
     return {
         props: {
             messages: mockMessages.reverse(),

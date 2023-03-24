@@ -1,7 +1,9 @@
 import ISport from "@/interfaces/ISport";
 import { Card, Image, Group, Badge, Text, Button } from "@mantine/core";
+import { useRouter } from "next/router";
 
 export default function SportCard({ sport }: { sport: ISport }) {
+    const router = useRouter();
     return (
         <>
             <Card shadow="sm" padding="lg" radius="md" withBorder maw={350} bg={'#e9ecef'}
@@ -39,7 +41,10 @@ export default function SportCard({ sport }: { sport: ISport }) {
                     mt="md"
                     radius="md"
                     sx={{ borderStyle: 'solid', borderColor: '#F77F00', borderWidth: '2px', }}
-                    styles={(theme) => ({ root: { background: '#F77F00', ":hover": theme.fn.hover({ background: 'white', color: '#F77F00' }) } })}>
+                    styles={(theme) => ({ root: { background: '#F77F00', ":hover": theme.fn.hover({ background: 'white', color: '#F77F00' }) } })}
+                    onClick={()=>{
+                        router.push(`/sport/${sport.name.toLowerCase()}`)
+                    }}>
                     Enter Challenges
                 </Button>
             </Card>
