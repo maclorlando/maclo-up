@@ -64,6 +64,7 @@ export default function Header() {
                 </Menu>
                 
                 <Image
+                    alt="upside_logo"
                     sx={{ cursor: 'pointer', position: 'fixed', zIndex: 1 }}
                     height={60} fit={'contain'} src={'/./upside_alpha.png'}
                     onClick={() => {

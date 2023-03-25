@@ -10,7 +10,7 @@ export default function GamesTabs({ sports, challenges }: { sports: ISport[], ch
     const mobile = useMediaQuery('(max-width: 768px)');
     return (
         <>
-            <Tabs defaultValue="sports" w={'100%'} color={'orange'}>
+            <Tabs className="gamesTabs" defaultValue="sports" w={'100%'} color={'orange'}>
                 <Tabs.List grow position={'apart'}>
                     <Tabs.Tab value="sports" icon={<ShirtSport size="0.8rem" />}>Sports</Tabs.Tab>
                     <Tabs.Tab value="challenges" icon={<Trophy size="0.8rem" />}>Challenges</Tabs.Tab>

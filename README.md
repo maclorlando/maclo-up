@@ -1,6 +1,6 @@
 ## Purpose
 
-This project was made as an exercise on NextJS/React and MongoDB. It utilizes Moongose as an ORM to define schemas and manipulate data on a mongo instance, and the Mantine UI component library for front end components implementation on top of the NextJS Framework. It is a brief showcase of basic tech skills on the fullstack as well as feature suggestions for a sportive predictions game application.
+This project was made as an exercise on NextJS/React and MongoDB. It utilizes Moongose as an ODM to define schemas and manipulate data on a mongo instance, and the Mantine UI component library for front end components implementation on top of the NextJS Framework. It is a brief showcase of basic tech skills on the fullstack as well as feature suggestions for a sportive predictions game application.
 Connection to the MongoDB was halted after successful initial testing for continuous development, and the app is currently using mocked data. But you can find working schemas, apis, and mongo client definitions in the "models", "api" and "libs" folders of the project, respectively.
 
 ## Getting Started

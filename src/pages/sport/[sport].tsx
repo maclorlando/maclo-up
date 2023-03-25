@@ -55,6 +55,7 @@ export default function SportPage({sports, challenges}: {sports: ISport[], chall
                 </Group>
                 <Text fw={600} color={'dimmed'}>{sport?.description}</Text>
                 <Image
+                    alt="sport_img"
                     radius={'lg'}
                     src={sport?.image_url}
                     height={mobile?150:350} fit={'cover'}>
