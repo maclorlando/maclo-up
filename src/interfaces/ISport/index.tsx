@@ -1,4 +1,5 @@
 export default interface ISport {
+    _id?: string,
     name: string,
     description: string,
     new: boolean;

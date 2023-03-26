@@ -23,7 +23,7 @@ export default function ThreadPage({ messages, challenges }: { messages: IMessag
     }
     useEffect(() => {
         challenges.forEach((item) => {
-            if (item.id == router.query.thread_id) {
+            if (item._id == router.query.thread_id) {
                 setChallenge(item);
             }
         })

@@ -43,7 +43,7 @@ export default function ChallengeAccordion({ challenges }: { challenges: IChalle
                 )}>
                 {challenges ? challenges.map((challenge) => {
                     return (
-                        <Accordion.Item value={challenge.id} key={challenge.id}
+                        <Accordion.Item value={challenge._id || ''} key={challenge._id}
                             bg={'#e9ecef'}>
                             <Accordion.Control>
                                 <Group noWrap bg={'none'} spacing={10}>
@@ -90,7 +90,7 @@ export default function ChallengeAccordion({ challenges }: { challenges: IChalle
                                             })}
                                             leftIcon={<Message size={15}/>}
                                             onClick={()=>{
-                                                router.push(`/thread/${challenge.id}`)
+                                                router.push(`/thread/${challenge._id}`)
                                             }}>
                                             Thread
                                         </Button>

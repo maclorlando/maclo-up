@@ -1,5 +1,5 @@
 export default interface IChallenge {
-    id: string,
+    _id?: string,
     sport_name: string,
     title: string,
     description: string,

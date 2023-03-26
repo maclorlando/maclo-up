@@ -2,7 +2,7 @@ import { Group, Image, Burger, Menu, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import { MutableRefObject, useRef, useState } from "react";
-import { Settings, Search, Mist, MessageCircle, Trash, Trophy, BrandOffice } from 'tabler-icons-react';
+import { Settings, Search, Mist, MessageCircle, Trash, Trophy, BrandOffice, Database } from 'tabler-icons-react';
 
 export default function Header() {
     const [headerMenuOpen, setHeaderMenuOpen] = useState<boolean>(false);
@@ -27,10 +27,10 @@ export default function Header() {
                     styles={{ dropdown: { width: '600px' } }}>
                     <Menu.Target>
                         <Burger
-                            sx={{zIndex: 2}}
+                            sx={{ zIndex: 2 }}
                             opened={headerMenuOpen} onClick={() => {
-                            setHeaderMenuOpen(!headerMenuOpen)
-                        }}></Burger>
+                                setHeaderMenuOpen(!headerMenuOpen)
+                            }}></Burger>
                     </Menu.Target>
 
                     <Menu.Dropdown
@@ -38,7 +38,7 @@ export default function Header() {
                         bg={'#e9ecef'}>
                         <Menu.Label fz={18} fw={'bold'}
                             color={'dark'}
-                            sx={{cursor: 'pointer'}}
+                            sx={{ cursor: 'pointer' }}
                             onClick={() => {
                                 setHeaderMenuOpen(false);
                                 router.push('/')
@@ -49,28 +49,32 @@ export default function Header() {
                         <Menu.Item icon={<Trophy size={14} />} disabled>My Challenges</Menu.Item>
                         <Menu.Item icon={<MessageCircle size={14} />} disabled>Messages</Menu.Item>
                         <Menu.Item icon={<BrandOffice size={14} />}>Careers</Menu.Item>
-                        <Menu.Item
-                            icon={<Search size={14} />}
-                            rightSection={<Text size="xs" fw={'bold'}>⌘K</Text>}
-                        >
-                            Search
-                        </Menu.Item>
+                        <Menu.Item icon={<Database size={14} />} onClick={() => {
+                            router.push('/mongodemo')
+                        }}>Mongo Demo</Menu.Item>
+                    <Menu.Item
+                        icon={<Search size={14} />}
+                        rightSection={<Text size="xs" fw={'bold'}>⌘K</Text>}
+                    >
+                        Search
+                    </Menu.Item>
 
-                        <Menu.Divider />
 
-                        <Menu.Label>Danger zone</Menu.Label>
-                        <Menu.Item color="red" icon={<Trash size={14} />}>Delete my account</Menu.Item>
-                    </Menu.Dropdown>
-                </Menu>
-                
-                <Image
-                    alt="upside_logo"
-                    sx={{ cursor: 'pointer', position: 'fixed', zIndex: 1 }}
-                    height={60} fit={'contain'} src={'/./upside_alpha.png'}
-                    onClick={() => {
-                        router.push('/')
-                    }} />
-            </Group>
+                    <Menu.Divider />
+
+                    <Menu.Label>Danger zone</Menu.Label>
+                    <Menu.Item color="red" icon={<Trash size={14} />}>Delete my account</Menu.Item>
+                </Menu.Dropdown>
+            </Menu>
+
+            <Image
+                alt="upside_logo"
+                sx={{ cursor: 'pointer', position: 'fixed', zIndex: 1 }}
+                height={60} fit={'contain'} src={'/./upside_alpha.png'}
+                onClick={() => {
+                    router.push('/')
+                }} />
+        </Group>
 
         </>
     )

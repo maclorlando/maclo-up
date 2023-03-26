@@ -8,7 +8,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         query: { id },
         method,
     } = req
-
     await dbConnect();
 
     switch (method) {
