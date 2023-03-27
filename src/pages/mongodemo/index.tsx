@@ -6,7 +6,7 @@ import { Accordion, Button, Dialog, Group, Modal, Stack, Text } from "@mantine/c
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import useSWR from 'swr'
-import { Trash } from 'tabler-icons-react';
+import { Trash, Edit } from 'tabler-icons-react';
 
 export default function MongoDemo({ }: {}) {
     const [opened, { open, close }] = useDisclosure(false);
@@ -35,7 +35,7 @@ export default function MongoDemo({ }: {}) {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
         })).json());
-        (type==='challenge')?challengesSWR.mutate():sportsSWR.mutate();
+        (type === 'challenge') ? challengesSWR.mutate() : sportsSWR.mutate();
         deleteControls.close();
         return result;
     }
@@ -44,7 +44,9 @@ export default function MongoDemo({ }: {}) {
         <>
             <Modal opened={opened} onClose={close} title={modalType}
                 styles={{ content: { background: '#e9ecef', paddingBottom: '5%' }, header: { background: '#e9ecef' } }}>
-                {<CreateEntityModal type={modalType} closeCallback={close} sportsMutate={sportsSWR.mutate} challengesMutate={challengesSWR.mutate}></CreateEntityModal>}
+                {<CreateEntityModal
+                    entityId={currEntity?currEntity._id:undefined}
+                    type={modalType} closeCallback={close} sportsMutate={sportsSWR.mutate} challengesMutate={challengesSWR.mutate}></CreateEntityModal>}
             </Modal>
             <Dialog opened={deleteOpened} withCloseButton onClose={() => {
                 deleteControls.close();
@@ -65,21 +67,21 @@ export default function MongoDemo({ }: {}) {
                 align={'flex-start'}
                 h={'100vh'}
                 sx={{ padding: '2%', paddingTop: 100, overflow: 'auto' }}>
-                <Text fw={500} color={'dimmed'}>
+                <Text fw={500} color={'dimmed'} fz={'sm'}>
                     {`if you're running locally, you don't have database credentials - go to: `}
                     <a href="https://maclo-up.vercel.app/mongodemo">https://maclo-up.vercel.app/mongodemo</a>
-                    </Text>
+                </Text>
                 <Group noWrap>
                     <Text fw={600} fz={"xl"}>Sports:</Text>
                     <Button
-                        sx={{ borderStyle: 'solid', borderColor: '#F77F00', borderWidth: '2px', flexShrink: 0}}
+                        sx={{ borderStyle: 'solid', borderColor: '#F77F00', borderWidth: '2px', flexShrink: 0 }}
                         styles={(theme) => ({
                             root: { background: '#F77F00', ":hover": theme.fn.hover({ background: 'white', color: '#F77F00' }) }
                         })}
                         onClick={async () => {
-                        setModalType('sport');
-                        open();
-                    }}>Add</Button>
+                            setModalType('Create Sport');
+                            open();
+                        }}>Add</Button>
                 </Group>
                 <Accordion w={'100%'}>
                     {fetchedSports.map((sport) => {
@@ -91,20 +93,32 @@ export default function MongoDemo({ }: {}) {
                             </Accordion.Control>
                             <Accordion.Panel>
                                 <Group noWrap>
-                                    {`entity id: ${sport._id}`}
-                                    <Button
-                                        sx={{ borderStyle: 'solid', borderColor: 'red', borderWidth: '2px', flexShrink: 0}}
-                                        styles={(theme) => ({
-                                            root: { background: 'red', ":hover": theme.fn.hover({ background: 'white', color: 'red' }) }
-                                        })}
-                                        radius={'xl'}
-                                        ml={'auto'}
-                                        onClick={() => {
-                                            setCurrEntity(sport);
-                                            deleteControls.open();
-                                        }}>
-                                        <Trash size={15}></Trash>
-                                    </Button>
+                                    <Text fz={'sm'}>{`${JSON.stringify(sport, null, 2)}`}</Text>
+                                    <Stack>
+                                        <Button
+                                            radius="xl"
+                                            ml={'auto'}
+                                            onClick={() => {
+                                                setModalType('Update Sport');
+                                                setCurrEntity(sport);
+                                                open();
+                                            }}>
+                                            <Edit size={15}></Edit>
+                                        </Button>
+                                        <Button
+                                            sx={{ borderStyle: 'solid', borderColor: 'red', borderWidth: '2px', flexShrink: 0 }}
+                                            styles={(theme) => ({
+                                                root: { background: 'red', ":hover": theme.fn.hover({ background: 'white', color: 'red' }) }
+                                            })}
+                                            radius={'xl'}
+                                            ml={'auto'}
+                                            onClick={() => {
+                                                setCurrEntity(sport);
+                                                deleteControls.open();
+                                            }}>
+                                            <Trash size={15}></Trash>
+                                        </Button>
+                                    </Stack>
                                 </Group>
                             </Accordion.Panel>
                         </Accordion.Item>
@@ -113,14 +127,14 @@ export default function MongoDemo({ }: {}) {
                 <Group noWrap>
                     <Text fw={600} fz={"xl"}>Challenges:</Text>
                     <Button
-                        sx={{ borderStyle: 'solid', borderColor: '#F77F00', borderWidth: '2px', flexShrink: 0}}
+                        sx={{ borderStyle: 'solid', borderColor: '#F77F00', borderWidth: '2px', flexShrink: 0 }}
                         styles={(theme) => ({
                             root: { background: '#F77F00', ":hover": theme.fn.hover({ background: 'white', color: '#F77F00' }) }
                         })}
                         onClick={() => {
-                        setModalType('challenge');
-                        open();
-                    }}>Add</Button>
+                            setModalType('Create Challenge');
+                            open();
+                        }}>Add</Button>
                 </Group>
                 <Accordion w={'100%'}>
                     {fetchedChallenges.map((challenge) => {
@@ -132,20 +146,32 @@ export default function MongoDemo({ }: {}) {
                             </Accordion.Control>
                             <Accordion.Panel>
                                 <Group noWrap>
-                                    {`${challenge.sport_name}: ${challenge.title}`}
-                                    <Button
-                                        sx={{ borderStyle: 'solid', borderColor: 'red', borderWidth: '2px', flexShrink: 0}}
-                                        styles={(theme) => ({
-                                            root: { background: 'red', ":hover": theme.fn.hover({ background: 'white', color: 'red' }) }
-                                        })}
-                                        radius={'xl'}
-                                        ml={'auto'}
-                                        onClick={() => {
-                                            setCurrEntity(challenge);
-                                            deleteControls.open();
-                                        }}>
-                                        <Trash size={15}></Trash>
-                                    </Button>
+                                    <Text fz={'sm'}>{`${JSON.stringify(challenge, null, 2)}`}</Text>
+                                    <Stack>
+                                        <Button
+                                            radius="xl"
+                                            ml={'auto'}
+                                            onClick={() => {
+                                                setModalType('Update Challenge');
+                                                setCurrEntity(challenge);
+                                                open();
+                                            }}>
+                                            <Edit size={15}></Edit>
+                                        </Button>
+                                        <Button
+                                            sx={{ borderStyle: 'solid', borderColor: 'red', borderWidth: '2px', flexShrink: 0 }}
+                                            styles={(theme) => ({
+                                                root: { background: 'red', ":hover": theme.fn.hover({ background: 'white', color: 'red' }) }
+                                            })}
+                                            radius={'xl'}
+                                            ml={'auto'}
+                                            onClick={() => {
+                                                setCurrEntity(challenge);
+                                                deleteControls.open();
+                                            }}>
+                                            <Trash size={15}></Trash>
+                                        </Button>
+                                    </Stack>
                                 </Group>
                             </Accordion.Panel>
                         </Accordion.Item>

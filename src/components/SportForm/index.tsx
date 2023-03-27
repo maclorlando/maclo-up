@@ -1,8 +1,9 @@
 import ISport from "@/interfaces/ISport";
-import { Group, TextInput, Text, Button, Switch, NumberInput } from "@mantine/core";
+import { Group, TextInput, Text, Button, Switch, NumberInput, Stack } from "@mantine/core";
 import { useState } from "react";
 
-export default function SportForm({ closeCallback, sportsMutate }: { closeCallback: Function, sportsMutate: Function }) {
+export default function SportForm({ closeCallback, sportsMutate, operation, sportId }:
+        { closeCallback: Function, sportsMutate: Function, operation: string, sportId: string | undefined}) {
     const [nameError, setNameError] = useState('');
     const [name, setName] = useState('')
     const [descriptionErr, setDescriptionErr] = useState('');
@@ -26,6 +27,33 @@ export default function SportForm({ closeCallback, sportsMutate }: { closeCallba
         }
         return result;
     }
+    const validateUpdatePayload = (sportPayload: any) : Boolean => {
+        if (sportPayload.hasOwnProperty('name') ||
+        sportPayload.hasOwnProperty('description') ||
+        sportPayload.hasOwnProperty('new') ||
+        sportPayload.hasOwnProperty('image_url')) {
+            return true
+        } else {
+            return false;
+        }
+    }
+    const updateSport = async () => {
+        const sportPayload: any = {};
+        if (name) {sportPayload.name = name}
+        if (description) {sportPayload.description = description}
+        if (checked != undefined) {sportPayload.new = checked}
+        if (imageUrl) {sportPayload.image_url = imageUrl}
+        if (validateUpdatePayload(sportPayload) && sportId) {
+            const sport = (await (await fetch(`/api/sport/${sportId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(sportPayload)
+            })).json())
+            return sport;
+        } else {
+            return 'A valid update payload or sportId was not provided'
+        }
+    }
     const createSport = async () => {
         const newSport: ISport = {
             name: name,
@@ -41,7 +69,7 @@ export default function SportForm({ closeCallback, sportsMutate }: { closeCallba
         return sport;
     }
     return (
-        <>
+        <Stack>
             <Group>
                 <TextInput label={'Sport Name:'} placeholder={'sport name'}
                     error={nameError}
@@ -77,13 +105,19 @@ export default function SportForm({ closeCallback, sportsMutate }: { closeCallba
                 })}
                 fullWidth
                 onClick={async () => {
-                    if (!validateForm()) {
-                        return;
+                    if (operation=='create') {
+                        if (!validateForm()) {
+                            return;
+                        }
+                        await createSport();
+                        sportsMutate();
+                    } else {
+                        const result = await updateSport();
+                        console.log(result);
+                        sportsMutate();
                     }
-                    await createSport();
-                    sportsMutate();
                     closeCallback();
-                }}>Create Sport</Button>
-        </>
+                }}>{operation=='create'?`Create Sport`:'Update Sport'}</Button>
+        </Stack>
     )
 }
