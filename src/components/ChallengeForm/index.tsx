@@ -3,7 +3,7 @@ import { Group, TextInput, NumberInput, Button } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { useState } from "react";
 
-export default function ChallengeForm({closeCallback}:{closeCallback: Function}) {
+export default function ChallengeForm({closeCallback, challengesMutate}:{closeCallback: Function, challengesMutate: Function}) {
     const [nameError, setNameError] = useState('');
     const [name, setName] = useState('')
     const [titleErr, setTitleErr] = useState('');
@@ -99,14 +99,18 @@ export default function ChallengeForm({closeCallback}:{closeCallback: Function})
                 <NumberInput label={'Max Participants:'} placeholder={'challenge participants limit'} hideControls></NumberInput>
             </Group>
             <Button
+                sx={{ borderStyle: 'solid', borderColor: '#F77F00', borderWidth: '2px', flexShrink: 0}}
+                styles={(theme) => ({
+                    root: { background: '#F77F00', ":hover": theme.fn.hover({ background: 'white', color: '#F77F00' }) }
+                })}
                 mt={'auto'}
-                sx={{ flexShrink: 0 }}
                 fullWidth
-                onClick={() => {
+                onClick={async () => {
                     if (!validateForm()) {
                         return;
                     }
-                    //createChallenge();
+                    await createChallenge();
+                    challengesMutate();
                     closeCallback();
                 }}>Create Challenge</Button>
         </>

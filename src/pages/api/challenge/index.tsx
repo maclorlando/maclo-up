@@ -10,8 +10,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
         case 'GET':
             try {
-                const sports = await Challenge.find({})
-                res.status(200).json({ success: true, data: sports })
+                const challenges = await Challenge.find({})
+                res.status(200).json({ success: true, data: challenges })
 
             } catch (error) {
                 res.status(400).json({ success: false });
@@ -19,8 +19,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             break;
         case 'POST':
             try {
-                const sport = await Challenge.create(req.body);
-                res.status(200).json({success: true, data: sport});
+                const challenge = await Challenge.create(req.body);
+                res.status(200).json({success: true, data: challenge});
             } catch (error) {
                 res.status(400).json({ success: false })
             }
