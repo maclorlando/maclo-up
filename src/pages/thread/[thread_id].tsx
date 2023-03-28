@@ -2,18 +2,19 @@ import { useRouter } from "next/router"
 import { Text, Stack, TextInput, Group, Button, Badge } from '@mantine/core'
 import dynamic from 'next/dynamic'
 import { useMediaQuery } from "@mantine/hooks";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import MessageCard from "@/components/MessageCard";
 import IMessage from "@/interfaces/IMessage";
 import { v4 as uuidv4 } from 'uuid'
 import { Send, CurrencyDollar } from 'tabler-icons-react';
 import IChallenge from "@/interfaces/IChallenge";
-import { mockChallenges } from "@/mockdata/mockChallenges";
+import { MockDataContext } from "@/contexts/MockDataContext";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
-export default function ThreadPage({ messages, challenges }: { messages: IMessage[], challenges: IChallenge[] }) {
+export default function ThreadPage({ messages }: { messages: IMessage[] }) {
     const router = useRouter();
     const mobile = useMediaQuery('(max-width: 768px)');
+    const { challenges } = useContext(MockDataContext)
     const [messageInput, setMessageInput] = useState('');
     const [messageArr, setMessageArr] = useState<IMessage[]>([...messages]);
     const [challenge, setChallenge] = useState<IChallenge>();
@@ -27,7 +28,7 @@ export default function ThreadPage({ messages, challenges }: { messages: IMessag
                 setChallenge(item);
             }
         })
-    }, [])
+    })
     const sendMessage = async () => {
         if (messageInput == '') { return };
         const newMsg: IMessage = {
@@ -43,7 +44,6 @@ export default function ThreadPage({ messages, challenges }: { messages: IMessag
         (inputRef.current as HTMLInputElement).value = '';
         setMessageInput('');
     }
-
     return (
         <>
             <Stack
@@ -54,7 +54,7 @@ export default function ThreadPage({ messages, challenges }: { messages: IMessag
                 sx={{ padding: '2%', paddingTop: 80, overflow: 'auto' }}>
                 <Stack w={'100%'} spacing={5}>
                     <Group noWrap>
-                        <Text fw={700} fz={mobile?20:25}>{challenge?.title}</Text>
+                        <Text fw={700} fz={mobile ? 20 : 25}>{challenge?.title}</Text>
                         <Badge
                             styles={() => ({ root: { background: '#ced4da', color: '#F77F00' } })}>
                             {challenge?.sport_name}
@@ -62,19 +62,20 @@ export default function ThreadPage({ messages, challenges }: { messages: IMessag
                     </Group>
                     <Text fw={500} color={'dimmed'}>{challenge?.description}</Text>
                     <Button
-                            ml={'auto'}
-                            size={'sm'}
-                            radius="lg"
-                            sx={{ borderStyle: 'solid', borderColor: '#F77F00', borderWidth: '2px', }}
-                            styles={(theme) => ({
-                                root: { background: '#F77F00', ":hover": theme.fn.hover({ background: 'white', color: '#F77F00' }) }
-                            })}
-                            leftIcon={<CurrencyDollar size={15} />}>
-                            Make Picks
-                        </Button>
+                        ml={'auto'}
+                        size={'sm'}
+                        radius="lg"
+                        sx={{ borderStyle: 'solid', borderColor: '#F77F00', borderWidth: '2px', }}
+                        styles={(theme) => ({
+                            root: { background: '#F77F00', ":hover": theme.fn.hover({ background: 'white', color: '#F77F00' }) }
+                        })}
+                        leftIcon={<CurrencyDollar size={15} />}>
+                        Make Picks
+                    </Button>
                     <Text fw={600}>Watch it live:</Text>
                 </Stack>
-                {ReactPlayer && <ReactPlayer url={'https://www.youtube.com/watch?v=1fueZCTYkpA'} width={mobile ? '100%' : '60%'} style={{ minHeight: mobile ? 350 : 450 }} controls></ReactPlayer>}
+                {ReactPlayer && <ReactPlayer url={'https://www.youtube.com/watch?v=1fueZCTYkpA'} width={mobile ? '100%' : '60%'}
+                    style={{ minHeight: mobile ? 350 : 450 }} controls></ReactPlayer>}
                 <Group w={'100%'} noWrap>
                     <TextInput w={'100%'}
                         ref={inputRef}
@@ -129,11 +130,9 @@ export async function getServerSideProps() {
             date: new Date().toUTCString(),
         }
     ]
-    const mockedChallenges = mockChallenges;
     return {
         props: {
             messages: mockMessages.reverse(),
-            challenges: mockedChallenges
         }
     }
 }

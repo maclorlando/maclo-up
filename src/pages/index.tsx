@@ -5,8 +5,11 @@ import IChallenge from '@/interfaces/IChallenge'
 import GamesTabs from '@/components/GamesTabs'
 import { mockSports } from '@/mockdata/mockSports'
 import { mockChallenges } from '@/mockdata/mockChallenges'
+import { useContext } from 'react'
+import { MockDataContext } from '@/contexts/MockDataContext'
 
-export default function Home({sports, challenges}:{sports: ISport[], challenges: IChallenge[]}) {
+export default function Home() {
+  const {sports, challenges} = useContext(MockDataContext);
   return (
     <>
       <main>
@@ -23,16 +26,3 @@ export default function Home({sports, challenges}:{sports: ISport[], challenges:
   )
 }
 
-export async function getServerSideProps() {
-  
-  const mockedSports = mockSports;
-  const mockedChallenges = mockChallenges;
-
-  // const sportsResult = await SportsAPI.getSports();
-  // const fetchedSports = sportsResult.data;
-
-  return {props: {
-    sports: mockedSports,
-    challenges: mockedChallenges,
-  }}
-}

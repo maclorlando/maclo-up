@@ -1,4 +1,5 @@
 import ChallengeAccordion from "@/components/ChallengeAccordion";
+import { MockDataContext } from "@/contexts/MockDataContext";
 import IChallenge from "@/interfaces/IChallenge";
 import ISport from "@/interfaces/ISport";
 import { mockChallenges } from "@/mockdata/mockChallenges";
@@ -6,11 +7,12 @@ import { mockSports } from "@/mockdata/mockSports";
 import { Badge, Group, Stack, Text, Image, Overlay } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
-export default function SportPage({sports, challenges}: {sports: ISport[], challenges: IChallenge[]}) {
+export default function SportPage() {
     const mobile = useMediaQuery('(max-width: 768px)');
     const router = useRouter();
+    const {sports, challenges} = useContext(MockDataContext);
     const [sport, setSport] = useState<ISport>();
     const [participants, setParticipants] = useState<number>();
     const [sportChallenges, setSportChallenges] = useState<IChallenge[]>([]);
@@ -31,10 +33,9 @@ export default function SportPage({sports, challenges}: {sports: ISport[], chall
         });
         setSportChallenges(sportChallenges);
         setParticipants(nParticipants);
-    }, []);
+    },[sports, challenges, sportChallenges, router.query.sport]);
     return (
         <>
-
             <Stack
                 sx={{ padding: '5%', paddingTop: 100, overflow: 'auto' }}
                 bg={'#f8f9fa'}
@@ -66,17 +67,3 @@ export default function SportPage({sports, challenges}: {sports: ISport[], chall
         </>
     )
 }
-
-export async function getServerSideProps() {
-  
-    const mockedSports = mockSports;
-    const mockedChallenges = mockChallenges;
-  
-    // const sportsResult = await SportsAPI.getSports();
-    // const fetchedSports = sportsResult.data;
-  
-    return {props: {
-      sports: mockedSports,
-      challenges: mockedChallenges,
-    }}
-  }

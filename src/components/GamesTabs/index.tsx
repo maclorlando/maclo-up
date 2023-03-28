@@ -24,12 +24,11 @@ export default function GamesTabs({ sports, challenges }: { sports: ISport[], ch
                         p={'1%'}
                         spacing={50}
                         sx={{ borderRadius: '10px', justifyContent: 'center' }}>
-                        {sports ? sports.map((sportCard) => {
+                        {sports?.length ? sports.map((sportCard) => {
                             return <SportCard sport={sportCard} key={sportCard.name}></SportCard>
                         }) : null}
                     </Group>
                 </Tabs.Panel>
-
                 <Tabs.Panel value="challenges" pt="xs">
                     <Group
                         maw={'100%'}
@@ -37,12 +36,11 @@ export default function GamesTabs({ sports, challenges }: { sports: ISport[], ch
                         p={'1%'}
                         spacing={50}
                         sx={{ borderRadius: '10px', justifyContent: 'center' }}>
-                        {challenges ?
+                        {challenges?.length ?
                             <ChallengeAccordion challenges={challenges}></ChallengeAccordion>
                             : null}
                     </Group>
                 </Tabs.Panel>
-
                 <Tabs.Panel value="trending" pt="xs">
                     <Group
                         maw={'100%'}
@@ -68,7 +66,6 @@ export default function GamesTabs({ sports, challenges }: { sports: ISport[], ch
                     </Group>
                 </Tabs.Panel>
             </Tabs>
-
         </>
     )
 }
